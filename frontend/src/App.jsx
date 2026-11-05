@@ -1,122 +1,108 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+function App(){
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+  const [playerData, setPlayerData] = useState();
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    retrieveData()
+  }, [])
+
+  async function retrieveData(){
+
+    try {
+
+      const data = await fetch("http://localhost:3000/api/player-stats/12345");
+
+      if (data.ok) {
+
+        const stats = await data.json();
+        setPlayerData(stats);
+
+      } else {
+
+        throw new Error(`HTTP ${data.status}: ${data.statusText}`);
+
+      }
+
+    } catch(error) {
+
+       setErrorMsg(error.message);
+    }
+    
+
+  }
+
+  if (errorMsg !== "") {
+    return (
+      <div>
+        <h1> Dragon Warrior Stats Dashboard </h1>
+        <h2> {errorMsg} </h2>
+      </div>
+    )
+  }
+
+  if (playerData === undefined){
+
+    return (
+      <div>
+        <h1> Dragon Warrior Stats Dashboard </h1>
+        <h2> Loading... </h2>
+      </div>
+    )
+  }
+
+  return(
+
+    <div>
+
+      {/* Background */}
+      <div className="bg2ndLayer"></div>
+      <img className = "bg" src="https://image.fonwall.ru/o/kc/fantsy-night-moon.jpeg?auto=compress&fit=crop&w=2048&h=1152&domain=img3.fonwall.ru" />
+
+      {/* Top Bar */}
+      <div className="header">
+        <img className = "logo" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3656e992-a780-49e2-a400-f4f1d2952837/dm8nmgb-866dbd09-d9e3-40f0-94ef-075f4f91dafc.png/v1/fill/w_1280,h_1280,q_80,strp/roblox_new_icon_2026__by_mateusgchaves_dm8nmgb-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTI4MCIsInBhdGgiOiIvZi8zNjU2ZTk5Mi1hNzgwLTQ5ZTItYTQwMC1mNGYxZDI5NTI4MzcvZG04bm1nYi04NjZkYmQwOS1kOWUzLTQwZjAtOTRlZi0wNzVmNGY5MWRhZmMucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.vwZUkOz3zXxcr4bobGw9pMRC_kQiXRlcz4FErOlaVeI" />
+        <h1>Dragon Warriors Stats DashBoard</h1>
+        <input placeholder="Search By UserID" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0Aqaca9MWAa2z0AkdKcq-dyzKBlDdl1U37fel7C2a8AsRIRBLa5Kz6wQ3&s=10"/>
+      </div>
+
+
+      <div className="player">
+
+        <h1> {"Alias : " + playerData.Name} </h1>
+        <h2> {"UID : " + playerData.UserId} </h2>
+
+        <h1> {"Level " + playerData.Level} </h1>
+
+        <p> {"Experience [" + playerData.Exp + "/" + playerData.MaxExp + "]"}</p>
+
+        <div className="expBar">
+          <div className = "innerBar" style = {{ width: `${(playerData.Exp/playerData.MaxExp)*100}%` }}> </div>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </div>
 
-      <div className="ticks"></div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <div className = "Gold">
+        <h1> {"Gold Reserves : " + playerData.Gold} </h1>
+        <p> A Dragon Warrior's main currency, used to furnish their armor, weapons and other various forms of equipment</p>
+      </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <div className="Gems">
+        <h1> {"Gem Reserves : " + playerData.Gems}</h1>
+        <p> A Dragon Warrior's Wealth, used to purchase assets that Gold simply can not buy </p>
+      </div>
+    </div>
+
+   
+    
   )
+
+
+  
 }
 
-export default App
+export default App;
