@@ -3,6 +3,7 @@
 
 h1, h2, p {
   font-family: 'Fredoka';
+  color: white;
 }
 
 .fredoka {
@@ -36,9 +37,9 @@ h1, h2, p {
   height: 100vh;
   width: 100vw;
   background-repeat: no-repeat;
-  background-size: cover;
   z-index: 0;
   opacity: 0.5;
+  object-fit: cover;
 }
 
 .header {
@@ -55,8 +56,100 @@ h1, h2, p {
 }
 
 .header h1 {
+  width: 40vw;
   margin-left: 2vw;
   color: white;
-  opacity: 0.8;
+}
+
+.header input {
+  height: 60%;
+  margin-top: 2vh;
+  margin-left: 27vw;
+  opacity: 0.75;
+}
+
+.header .searchIcon {
+  opacity: 0.9;
+  width: 5.5vw;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0Aqaca9MWAa2z0AkdKcq-dyzKBlDdl1U37fel7C2a8AsRIRBLa5Kz6wQ3&s=10");
+  background-size: 100% 100%;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-image: linear-gradient(
+    to bottom, rgba(7, 94, 255, 1), rgba(115, 0, 255, 0.684), rgba(255, 213, 0, 0.5)
+  );
+  top: 2vh;
+  left: 0.5vw;
+  height: 84vh;
+  width: 40vw;
+  border-radius: 5%;
+}
+
+.player h1, h2 {
+  margin-left: 2vw;
+}
+
+.player .expBar {
+  position: absolute;
+  top: 38vh;
+  left: 1.5vw;
+  height: 3vh;
+  width: 30vw;
+  border-radius: 20%;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.player .innerBar {
+  position: absolute;
+  top: 0vh;
+  left: 0vw;
+  height: inherit;
+  border-radius: 10%;
+  transition: width 0.5s ease;
+  background-image: linear-gradient(to right, rgb(0, 242, 255) 55%, rgb(5, 109, 255) 75%, rgb(132, 0, 255) 95%);
+}
+
+.Gold {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  left: 45vw;
+  top: 15vh;
+  width: 50vw;
+  height: 35vh;
+  border-radius: 5%;
+  background-image: linear-gradient(
+    to bottom, rgba(255, 251, 3, 0.4), rgba(5, 102, 205, 0.2)
+  );
+  padding: 0.5%;
+}
+
+.Gold h1, .Gold p {
+  text-align: left;
+  margin-left: 1vw;
+}
+
+.Gems {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  left: 45vw;
+  top: 55vh;
+  width: 50vw;
+  height: 35vh;
+  border-radius: 5%;
+  background-image: linear-gradient(
+    to bottom, rgba(3, 184, 255, 0.4), rgba(141, 1, 255, 0.2)
+  );
+  padding: 0.5%;
+}
+
+.Gems h1, .Gems p {
+  text-align: left;
+  margin-left: 1vw;
 }
 
