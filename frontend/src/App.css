@@ -38,7 +38,7 @@ h1, h2, p {
   width: 100vw;
   background-repeat: no-repeat;
   z-index: 0;
-  opacity: 0.5;
+  opacity: 0.8;
   object-fit: cover;
 }
 

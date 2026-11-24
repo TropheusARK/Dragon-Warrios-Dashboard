@@ -1,5 +1,16 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config({ path: "./secrets.env"})
+
+const playerStats = new Map();
+
+const DASHBOARD_API_KEY = process.env.DASHBOARD_API_KEY
+
+if (!DASHBOARD_API_KEY){
+    console.error("Missing DASHBOARD_API_KEY. Server cannot start.");
+    process.exit(1);
+}
 
 //app creation
 const app = express();
@@ -10,17 +21,72 @@ app.use(cors());
 
 const PORT = 3000
 
+function validateUserId(userId){
+    
+    if (!Number.isNaN(userId) && Number.isSafeInteger(userId) && (userId > 0)) {
+        return userId;
+    } else {
+        return null;
+    }
+}
+
+function authenticateDashboard(req, res, next) {
+
+    console.log(JSON.stringify(DASHBOARD_API_KEY));
+
+    if (req.headers["x-api-key"] === DASHBOARD_API_KEY) {
+        next()
+    } else {
+        res.status(401).send('Unauthorized Access')
+    }
+}
+
 app.get("/api/player-stats/:userId", (req, res) => {
 
-    res.json({
-        "UserId": req.params.userId,
-        "Name": "BigDawg",
-        "Level": 32,
-        "Exp": 12,
-        "MaxExp": 32,
-        "Gold": 45000,
-        "Gems": 235,
-    });
+    const userId = validateUserId(Number(req.params.userId))
+    const playerData = playerStats.get(userId)
+
+    if (userId !== null){
+        if (playerData === undefined) {
+            res.status(404).send('User not found')
+        } else {
+            res.status(200).json({ "data": playerData})
+        }
+    } else {
+        res.status(400).send('Invalid Id')
+    }
+
+    
+});
+
+function updateMap(userId, req){
+    playerStats.set(userId, {
+        "UserId": userId,
+        "Name": req.body.name,
+        "Level": req.body.level,
+        "Exp": req.body.exp,
+        "MaxExp": req.body.maxExp,
+        "Gold": req.body.gold,
+        "Gems": req.body.gems,
+    })
+}
+
+app.post("/api/player-stats/", authenticateDashboard, (req, res) => {
+
+
+    const userId = validateUserId(Number(req.body.userId))
+
+    if (userId !== null) {
+
+        const msg = (playerStats.get(userId) === undefined) ? 'User created successfully' : 'User updated successfully'
+        updateMap(userId, req)
+        res.status(201).json({ message: msg})
+        
+    } else {
+        res.status(400).send('Invalid Id')
+    }
+  
+
 })
 
 app.get("/api/health", (req, res) => {
