@@ -2,7 +2,10 @@
 
 A full-stack web dashboard integrating player statistics from Dragon Warriors, a Roblox game I've been developing for five years, into a React frontend through a Node.js/Express API. Explores game-to-web integration, server-side validation, and player data visualization.
 
+<<<<<<< HEAD
 My Roblox game uses ProfileStore to manage player data and then retrieved the necessary statistics, In Roblox I use HttpService serializes the data into JSON. I send that HTTP POST request. For the test runs I used Cloudflare Quick Tunnel to temporarily expose my local express server.
+=======
+>>>>>>> origin/main
 My Roblox game uses ProfileStore to manage player data and retrieve the necessary statistics. In Roblox, I use HttpService to serialize the data into JSON and send an HTTP POST request. For testing, I used Cloudflare Quick Tunnel to temporarily expose my local Express server.
 
 My Express server authenticates incoming requests using an API key. It validates the incoming data and stores it inside an in-memory JavaScript Map. My React frontend accesses and retrieves the player's data through an HTTP GET request and then displays it.
@@ -32,8 +35,15 @@ Environment configuration: dotenv
 
 # Technical Limitations
 
+<<<<<<< HEAD
 My Express then authenticated incoming requests using an API key. My Server validated the incoming data and then stored it inside a local non-saving JavaScript Map. My React frontend accessed and retrieved the player's data through an HTTP GET request, and then displayed it.
 Player data is stored in an in-memory JavaScript Map and is not persisted. All stored data is lost when the backend server restarts.
 The GET endpoint does not require authentication, allowing public retrieval of player statistics by UserId, which is intended
 Cloudflare Quick Tunnel generates temporary URLs that may change when the tunnel restarts.
 Reproducing the live Roblox integration requires configuring a separate Roblox environment, API key, and active Cloudflare Tunnel URL.
+=======
+Player data is stored in an in-memory JavaScript Map and is not persisted. All stored data is lost when the backend server restarts.
+The GET endpoint does not require authentication, allowing public retrieval of player statistics by UserId, which is intended
+Cloudflare Quick Tunnel generates temporary URLs that may change when the tunnel restarts.
+Reproducing the live Roblox integration requires configuring a separate Roblox environment, API key, and active Cloudflare Tunnel URL.
+>>>>>>> origin/main
