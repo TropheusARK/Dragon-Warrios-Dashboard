@@ -77,3 +77,11 @@ React Frontend
 - The GET endpoint does not require authentication, allowing public retrieval of player statistics by UserId, which is intended.
 - Cloudflare Quick Tunnel generates temporary URLs that may change when the tunnel restarts.
 - Reproducing the live Roblox integration requires configuring a separate Roblox environment, API key, and active Cloudflare Tunnel URL.
+
+# Screenshots
+
+![Player Dashboard](./screenshots/dashboard.png)
+
+![Player Search](./screenshots/player-search.png)
+
+![Error Handling](./screenshots/error-state.png)
