@@ -21,21 +21,23 @@ app.use(cors());
 
 const PORT = 3000
 
-function validateUserId(userId){
-    
-    if (!Number.isNaN(userId) && Number.isSafeInteger(userId) && (userId > 0)) {
-        return userId;
+function isValidNum(num){
+    if (Number.isSafeInteger(num) && (num >= 0)) {
+        return true;
     } else {
-        return null;
+        return false;
     }
 }
 
 function authenticateDashboard(req, res, next) {
 
-    console.log(JSON.stringify(DASHBOARD_API_KEY));
-
     if (req.headers["x-api-key"] === DASHBOARD_API_KEY) {
-        next()
+
+        if (req.body !== null && typeof(req.body) === "object" && !Array.isArray(req.body) && typeof(req.body.name) === "string" && isValidNum(req.body.userId) && isValidNum(req.body.level) && isValidNum(req.body.gold) && isValidNum(req.body.exp) && isValidNum(req.body.maxExp) && isValidNum(req.body.gems)) {
+            next()
+        } else {
+            res.status(400).send('Invalid Data Fields')
+        }
     } else {
         res.status(401).send('Unauthorized Access')
     }
@@ -43,7 +45,7 @@ function authenticateDashboard(req, res, next) {
 
 app.get("/api/player-stats/:userId", (req, res) => {
 
-    const userId = validateUserId(Number(req.params.userId))
+    const userId = isValidNum(Number(req.params.userId)) ? Number(req.params.userId) : null
     const playerData = playerStats.get(userId)
 
     if (userId !== null){
@@ -74,7 +76,7 @@ function updateMap(userId, req){
 app.post("/api/player-stats/", authenticateDashboard, (req, res) => {
 
 
-    const userId = validateUserId(Number(req.body.userId))
+    const userId = isValidNum(Number(req.body.userId)) ? Number(req.body.userId) : null
 
     if (userId !== null) {
 
